@@ -20,6 +20,6 @@ class Enemy extends SvgComponent with HasGameRef<CorsairGame> {
   void onMount() {
     // TODO: implement onMount
     super.onMount();
-    add(RotateEffect.by(2 * pi, EffectController(duration: 10, repeatCount: 20)));
+    add(RotateEffect.by(2 * pi, EffectController(duration: 15, repeatCount: 20)));
   }
 }
