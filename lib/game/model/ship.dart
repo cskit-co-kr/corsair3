@@ -3,6 +3,8 @@ import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_game/game/model/bullet.dart';
 import 'package:flame_svg/flame_svg.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import '../../settings/game_state.dart';
@@ -53,12 +55,15 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     //   maxPlayers: 4,
     // );
     final shape = CircleHitbox.relative(
-      0.8,
+      1.0,
       parentSize: size,
       position: size / 2,
       anchor: Anchor.center,
     );
+
+    final rc = RectangleComponent(paint: Paint()..color = Colors.red.withOpacity(.4), size: size * 1.2, position: size / 2, anchor: Anchor.center);
     add(shape);
+    add(rc);
   }
 
   @override
@@ -70,15 +75,6 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
       GameState.type = GameType.overGame;
 
       // removeFromParent();
-    }
-  }
-
-  void clickAction() {
-    if (GameState.type == GameType.playingGame) {
-      isReverse = !isReverse;
-    } else {
-      //if (GameState.type != GameType.playingGame) {
-      GameState.type = GameType.playingGame;
     }
   }
 

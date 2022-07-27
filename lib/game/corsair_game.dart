@@ -18,45 +18,83 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   Svg? buttonSvg;
   late TextComponent scoreText;
   late TextComponent levelText;
+
+  late SpriteComponent baackComp;
+  late StarController star;
+  late Enemy enemy;
+  late Ship ship;
+  late ButtonComponent button;
+  late BulletController bullet;
   @override
   Future onLoad() async {
     print(canvasSize);
     await images.loadAll(['background.jpg', 'destroy8.png', 'star.png', 'bullet.png']);
+    await initData();
+  }
+
+  @override
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+    scoreText.text = 'Score: ${GameState.score}';
+    levelText.text = 'LEVEL ${GameState.level}';
+  }
+
+  Future refreshData() async {
+    // remove(ship);
     SpriteComponent baackComp = SpriteComponent(
       sprite: Sprite(images.fromCache('background.jpg')),
       size: canvasSize,
     );
 
+    remove(star);
+
+    if (children.contains(ship)) remove(ship);
+    remove(bullet);
+    remove(enemy);
+    remove(button);
+    remove(scoreText);
+    remove(levelText);
+
+    await initData();
+  }
+
+  void clickAction() {
+    if (GameState.type == GameType.playingGame) {
+      ship.isReverse = !ship.isReverse;
+    } else {
+      //if (GameState.type != GameType.playingGame) {
+      refreshData();
+      GameState.type = GameType.playingGame;
+    }
+  }
+
+  Future initData() async {
     //ship
-    shipSvg = await loadSvg('images/ship.svg');
-    Ship ship = Ship(
-      shipSvg: shipSvg,
+    ship = Ship(
+      shipSvg: await loadSvg('images/ship.svg'),
       position: Vector2(canvasSize.x * 0.5, canvasSize.y * 0.3),
     );
 
     //enemy
-    enemySvg = await loadSvg('images/enemy.svg');
-    Enemy enemy = Enemy(
-      enemySvg: enemySvg,
+    enemy = Enemy(
+      enemySvg: await loadSvg('images/enemy.svg'),
       position: canvasSize * .5,
     );
 
     //star
 
-    StarController star = StarController();
+    star = StarController();
 
     //bullet
 
-    BulletController bullet = BulletController();
+    bullet = BulletController();
     //button
-    buttonSvg = await loadSvg('images/playbutton.svg');
-
-    //add components
-    ButtonComponent button = ButtonComponent(
-      button: SvgComponent(svg: buttonSvg, size: Vector2(90, 90)),
+    button = ButtonComponent(
+      button: SvgComponent(svg: await loadSvg('images/playbutton.svg'), size: Vector2(90, 90)),
       anchor: Anchor.center,
       position: Vector2(size.x / 2, size.y - 100),
-      onPressed: ship.clickAction,
+      onPressed: clickAction,
     );
 
     scoreText = TextComponent(
@@ -80,7 +118,9 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
         ),
       ),
     );
-    add(baackComp);
+
+    //add components
+
     add(star);
     add(ship);
     add(bullet);
@@ -88,13 +128,5 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     add(button);
     add(scoreText);
     add(levelText);
-  }
-
-  @override
-  void update(double dt) {
-    // TODO: implement update
-    super.update(dt);
-    scoreText.text = 'Score: ${GameState.score}';
-    levelText.text = 'LEVEL ${GameState.level}';
   }
 }

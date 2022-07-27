@@ -28,15 +28,15 @@ class Bullet extends SpriteComponent with CollisionCallbacks, HasGameRef<Corsair
   void update(double dt) {
     super.update(dt);
     position += chiglel! * speed * dt;
-    // if(position.y>200){
-    //   removeFromParent();
-    // }
+    if (position.y > gameRef.size.y || position.x > gameRef.size.x || position.y < 0 || position.x < 0) {
+      removeFromParent();
+    }
   }
 
   @override
   void onMount() {
     super.onMount();
-    final shape = CircleHitbox.relative(
+    CircleHitbox shape = CircleHitbox.relative(
       0.8,
       parentSize: size,
       position: size / 2,
