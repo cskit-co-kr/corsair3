@@ -3,7 +3,6 @@ import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_game/game/model/bullet.dart';
 import 'package:flame_svg/flame_svg.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -14,9 +13,11 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
   double speed = 0.03;
   double radian = -math.pi / 2;
   bool isReverse = false;
+  Function setStates;
   // late AudioPool pool;
 
   Ship({
+    required this.setStates,
     Svg? shipSvg,
     Vector2? position,
   }) : super(
@@ -72,22 +73,32 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     if (other is Bullet) {
       // pool.start();
       destroy();
-      GameState.type = GameType.overGame;
 
       // removeFromParent();
     }
   }
 
-  void destroy() {
+  void destroy() async {
     List<Sprite> aaa = [];
     SpriteSheet ss = SpriteSheet.fromColumnsAndRows(image: gameRef.images.fromCache('destroy8.png'), columns: 7, rows: 1);
     for (int i = 0; i < 7; i++) {
       aaa.add(ss.getSpriteById(i));
     }
     SpriteAnimation a = SpriteAnimation.spriteList(aaa, stepTime: 0.1, loop: false);
-    SpriteAnimationComponent sac = SpriteAnimationComponent(animation: a, position: position - (Vector2(100, 100) / 2), size: Vector2(100, 100));
+    SpriteAnimationComponent sac = SpriteAnimationComponent(
+      animation: a,
+      position: position - (Vector2(100, 100) / 2),
+      size: Vector2(100, 100),
+    );
 
     removeFromParent();
     gameRef.add(sac);
+
+    await Future.delayed(const Duration(seconds: 2), () {
+      GameState.type = GameType.overGame;
+      setStates();
+      // gameRef.endGame();
+      print('endshipaa');
+    });
   }
 }

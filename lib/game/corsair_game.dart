@@ -12,12 +12,12 @@ import 'package:flutter/material.dart';
 import '../settings/game_state.dart';
 
 class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
-  Sprite? background;
   Svg? shipSvg;
   Svg? enemySvg;
   Svg? buttonSvg;
   late TextComponent scoreText;
   late TextComponent levelText;
+  Function setStates;
 
   late SpriteComponent baackComp;
   late StarController star;
@@ -25,16 +25,18 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   late Ship ship;
   late ButtonComponent button;
   late BulletController bullet;
+  CorsairGame({required this.setStates});
+  @override
+  Color backgroundColor() => Colors.transparent;
+
   @override
   Future onLoad() async {
-    print(canvasSize);
     await images.loadAll(['background.jpg', 'destroy8.png', 'star.png', 'bullet.png']);
     await initData();
   }
 
   @override
   void update(double dt) {
-    // TODO: implement update
     super.update(dt);
     scoreText.text = 'Score: ${GameState.score}';
     levelText.text = 'LEVEL ${GameState.level}';
@@ -62,16 +64,22 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   void clickAction() {
     if (GameState.type == GameType.playingGame) {
       ship.isReverse = !ship.isReverse;
-    } else {
+    } else if (GameState.type == GameType.loadingGame) {
       //if (GameState.type != GameType.playingGame) {
-      refreshData();
+      // refreshData();
       GameState.type = GameType.playingGame;
+    } else {
+      GameState.type = GameType.loadingGame;
+      refreshData();
     }
+
+    setStates();
   }
 
   Future initData() async {
     //ship
     ship = Ship(
+      setStates: setStates,
       shipSvg: await loadSvg('images/ship.svg'),
       position: Vector2(canvasSize.x * 0.5, canvasSize.y * 0.3),
     );
@@ -128,5 +136,9 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     add(button);
     add(scoreText);
     add(levelText);
+  }
+
+  void endGame() {
+    print('EndGame');
   }
 }

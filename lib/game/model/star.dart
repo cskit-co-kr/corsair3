@@ -1,16 +1,7 @@
-import 'dart:math';
-
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flame_game/game/model/ship.dart';
 import 'package:flame_game/settings/game_state.dart';
-import 'package:flame_svg/flame_svg.dart';
-import 'package:flame_audio/audio_pool.dart';
-import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/cupertino.dart';
-
-import '../corsair_game.dart';
 
 class Star extends SpriteComponent with CollisionCallbacks {
   // late AudioPool pool;
@@ -32,11 +23,6 @@ class Star extends SpriteComponent with CollisionCallbacks {
       position: size / 2,
       anchor: Anchor.center,
     );
-    // pool = await FlameAudio.createPool(
-    //   'coin2.mp3',
-    //   minPlayers: 3,
-    //   maxPlayers: 4,
-    // );
     add(shape);
   }
 
@@ -44,19 +30,9 @@ class Star extends SpriteComponent with CollisionCallbacks {
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is Ship) {
-      // pool.start();
-      // print('hfdjhfdjshfkdshfks');
       removeFromParent();
-      // add(
-      //   OpacityEffect.by(
-      //     0.0,
-      //     EffectController(duration: 0.01, repeatCount: 1),
-      //     onComplete: () => removeFromParent(),
-      //   ),
-      // );
+      print('dhfjashf lasd asd  ${parent}');
       GameState.score++;
-
-      // GameState.level = int.parse(GameState.score / 10) + 1;
     }
   }
 }

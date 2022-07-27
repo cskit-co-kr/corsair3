@@ -3,8 +3,6 @@ import 'package:flame_game/settings/game_state.dart';
 import 'package:flame_game/widget.dart/menu_widget.dart';
 import 'package:flame_game/widget.dart/over_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import 'game/corsair_game.dart';
 
@@ -40,9 +38,9 @@ class _HomeScreenState extends State<HomeScreen> {
               //menu widget
               MenuWidget(setStates: setStates)
               : GameState.type == GameType.overGame
-                  ? OverWidget()
+                  ? OverWidget(setStates: setStates)
                   : GameWidget(
-                      game: CorsairGame(),
+                      game: CorsairGame(setStates: setStates),
                     )),
     );
   }
