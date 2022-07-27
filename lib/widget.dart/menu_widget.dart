@@ -17,7 +17,7 @@ class _MenuWidgetState extends State<MenuWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-          'tradingram',
+          'Tradingram',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         const SizedBox(height: 20),
@@ -26,6 +26,8 @@ class _MenuWidgetState extends State<MenuWidget> {
         InkWell(
           onTap: () {
             GameState.type = GameType.loadingGame;
+            GameState.score = 0;
+            GameState.level = 1;
             widget.setStates();
           },
           child: Container(

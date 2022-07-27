@@ -2,6 +2,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_game/game/controller/bullet_controller.dart';
 import 'package:flame_game/game/model/ship.dart';
+import 'package:flame_game/settings/game_state.dart';
 import 'package:flame_svg/flame_svg.dart';
 import 'dart:math' as math;
 

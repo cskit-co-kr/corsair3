@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import '../settings/game_state.dart';
+
 class ScoreWidget extends StatelessWidget {
   List<Score>? listScore;
   String name;
@@ -21,7 +23,7 @@ class ScoreWidget extends StatelessWidget {
         children: [
           Text(
             isResult ? 'You scored' : 'Welcome',
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFF722F2F)),
+            style: const TextStyle(fontSize: 20, color: Color(0xFF722F2F)),
           ),
           const SizedBox(height: 40),
           if (isResult)
@@ -36,7 +38,7 @@ class ScoreWidget extends StatelessWidget {
                     height: 25,
                   ),
                   Text(
-                    '${name}',
+                    '${GameState.score}',
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
                   ),
                 ],
@@ -61,11 +63,11 @@ class ScoreWidget extends StatelessWidget {
         children: [
           Text(
             scr.name ?? 'NULL',
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
+            style: const TextStyle(fontSize: 15, color: Color(0xFF2A2A2A)),
           ),
           Text(
             '${scr.point ?? 0}',
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
+            style: const TextStyle(fontSize: 15, color: Color(0xFF722F2F)),
           ),
         ],
       ),
@@ -78,10 +80,10 @@ class Score {
   int? point;
   Score({this.name, this.point});
   List<Score> get defaultList => [
-        Score(name: 'hasess', point: 100),
+        Score(name: 'Namuun', point: 100),
         Score(name: 'byamba', point: 80),
-        Score(name: 'nymba', point: 150),
+        Score(name: 'nyam', point: 150),
         Score(name: 'davaa', point: 200),
-        Score(name: 'myagmr', point: 40),
+        Score(name: 'myagmar', point: 40),
       ];
 }

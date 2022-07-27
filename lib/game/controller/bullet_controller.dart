@@ -10,7 +10,7 @@ class BulletController extends Component with HasGameRef<CorsairGame> {
   late Timer timer;
   int type = 0;
   BulletController() {
-    timer = Timer(.5, onTick: generateBullet, repeat: true);
+    timer = Timer(.4, onTick: generateBullet, repeat: true);
   }
   generateBullet() async {
     if (GameState.type == GameType.playingGame) {

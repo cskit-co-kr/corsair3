@@ -19,29 +19,32 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {});
     }
   }
+  //load
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(),
       body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/background.jpg'),
-              fit: BoxFit.cover,
-            ),
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.jpg'),
+            fit: BoxFit.cover,
           ),
-          child: GameState.type == GameType.empty
-              ?
-              //menu widget
-              MenuWidget(setStates: setStates)
-              : GameState.type == GameType.overGame
-                  ? OverWidget(setStates: setStates)
-                  : GameWidget(
-                      game: CorsairGame(setStates: setStates),
-                    )),
+        ),
+        child: SafeArea(
+            child: GameState.type == GameType.empty
+                ?
+                //menu widget
+                MenuWidget(setStates: setStates)
+                : GameState.type == GameType.overGame
+                    ? OverWidget(setStates: setStates)
+                    : GameWidget(
+                        game: CorsairGame(setStates: setStates),
+                      )),
+      ),
     );
   }
 }

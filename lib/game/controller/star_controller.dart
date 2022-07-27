@@ -6,11 +6,11 @@ import 'dart:math' as math;
 
 class StarController extends Component with HasGameRef<CorsairGame> {
   late Timer timer;
-  int coinCount = 30;
+  int coinCount = 29;
   int totalStep = 1;
 
   StarController() {
-    timer = Timer(.005, onTick: generateBullet, repeat: true);
+    timer = Timer(.02, onTick: generateBullet, repeat: true);
   }
   generateBullet() {
     Vector2 centerPostion = gameRef.size / 2;

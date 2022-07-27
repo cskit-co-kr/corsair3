@@ -2,6 +2,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_game/game/model/bullet.dart';
+import 'package:flame_game/game/model/star.dart';
 import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -10,14 +11,17 @@ import '../../settings/game_state.dart';
 import '../corsair_game.dart';
 
 class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame> {
-  double speed = 0.03;
+  double speed = 0.032;
   double radian = -math.pi / 2;
   bool isReverse = false;
   Function setStates;
+  Function nextlevel;
+  int coinCount = 0;
   // late AudioPool pool;
 
   Ship({
     required this.setStates,
+    required this.nextlevel,
     Svg? shipSvg,
     Vector2? position,
   }) : super(
@@ -25,7 +29,9 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
           size: Vector2(33, 33),
           position: position,
           anchor: Anchor.center,
-        );
+        ) {
+    coinCount = 29;
+  }
   @override
   void update(double dt) {
     super.update(dt);
@@ -62,9 +68,7 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
       anchor: Anchor.center,
     );
 
-    final rc = RectangleComponent(paint: Paint()..color = Colors.red.withOpacity(.4), size: size * 1.2, position: size / 2, anchor: Anchor.center);
     add(shape);
-    add(rc);
   }
 
   @override
@@ -75,6 +79,11 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
       destroy();
 
       // removeFromParent();
+    } else if (other is Star) {
+      coinCount--;
+      if (coinCount < 2) {
+        nextlevel();
+      }
     }
   }
 
@@ -93,9 +102,8 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
 
     removeFromParent();
     gameRef.add(sac);
-
+    GameState.type = GameType.overGame;
     await Future.delayed(const Duration(seconds: 2), () {
-      GameState.type = GameType.overGame;
       setStates();
       // gameRef.endGame();
       print('endshipaa');

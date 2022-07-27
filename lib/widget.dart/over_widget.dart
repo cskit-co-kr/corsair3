@@ -26,6 +26,8 @@ class _OverWidgetState extends State<OverWidget> {
         InkWell(
           onTap: () {
             GameState.type = GameType.loadingGame;
+            GameState.score = 0;
+            GameState.level = 1;
             widget.setStates();
           },
           child: Container(

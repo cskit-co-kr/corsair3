@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_game/game/controller/bullet_controller.dart';
@@ -19,7 +20,6 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   late TextComponent levelText;
   Function setStates;
 
-  late SpriteComponent baackComp;
   late StarController star;
   late Enemy enemy;
   late Ship ship;
@@ -38,16 +38,12 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   @override
   void update(double dt) {
     super.update(dt);
-    scoreText.text = 'Score: ${GameState.score}';
-    levelText.text = 'LEVEL ${GameState.level}';
+    scoreText.text = '${GameState.score}';
+    levelText.text = 'LEVEL  ${GameState.level}';
   }
 
   Future refreshData() async {
     // remove(ship);
-    SpriteComponent baackComp = SpriteComponent(
-      sprite: Sprite(images.fromCache('background.jpg')),
-      size: canvasSize,
-    );
 
     remove(star);
 
@@ -61,24 +57,30 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     await initData();
   }
 
-  void clickAction() {
+  void nextlevel() async {
+    GameState.type = GameType.nextGame;
+    // button.button.= await loadSvg('images/ship.svg');
+
+    GameState.level++;
+    refreshData();
+  }
+
+  void clickAction() async {
     if (GameState.type == GameType.playingGame) {
       ship.isReverse = !ship.isReverse;
-    } else if (GameState.type == GameType.loadingGame) {
+    } else if (GameState.type == GameType.loadingGame || GameState.type == GameType.nextGame) {
       //if (GameState.type != GameType.playingGame) {
       // refreshData();
-      GameState.type = GameType.playingGame;
-    } else {
-      GameState.type = GameType.loadingGame;
-      refreshData();
-    }
+      // button.button = SvgComponent(svg: await loadSvg('images/playbutton.svg'), size: Vector2(90, 90));
 
-    setStates();
+      GameState.type = GameType.playingGame;
+    }
   }
 
   Future initData() async {
     //ship
     ship = Ship(
+      nextlevel: nextlevel,
       setStates: setStates,
       shipSvg: await loadSvg('images/ship.svg'),
       position: Vector2(canvasSize.x * 0.5, canvasSize.y * 0.3),
@@ -87,7 +89,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     //enemy
     enemy = Enemy(
       enemySvg: await loadSvg('images/enemy.svg'),
-      position: canvasSize * .5,
+      position: Vector2(canvasSize.x * 0.5, canvasSize.y * 0.5),
     );
 
     //star
@@ -99,33 +101,43 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     bullet = BulletController();
     //button
     button = ButtonComponent(
-      button: SvgComponent(svg: await loadSvg('images/playbutton.svg'), size: Vector2(90, 90)),
+      button: SvgComponent(svg: await loadSvg('images/repeat.svg'), size: Vector2(90, 90)),
       anchor: Anchor.center,
       position: Vector2(size.x / 2, size.y - 100),
-      onPressed: clickAction,
+      onPressed: (() {
+        // add(
+        //   ScaleEffect.by(
+        //     Vector2.all(1.1),
+        //     EffectController(duration: 0.2, reverseDuration: 0.2),
+        //   ),
+        // );
+        clickAction();
+      }),
     );
 
     scoreText = TextComponent(
-      text: 'Score: 0',
-      position: Vector2(300, 50),
-      textRenderer: TextPaint(
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 12,
+        text: '0',
+        position: Vector2(size.x - 40, 18),
+        textRenderer: TextPaint(
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+            fontFamily: 'Lalezar',
+          ),
         ),
-      ),
-    );
+        anchor: Anchor.centerRight);
 
     levelText = TextComponent(
-      text: 'LEVEL 1',
-      position: Vector2(50, 50),
-      textRenderer: TextPaint(
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 12,
+        text: 'LEVEL 1',
+        position: Vector2(24, 18),
+        textRenderer: TextPaint(
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+            fontFamily: 'Lalezar',
+          ),
         ),
-      ),
-    );
+        anchor: Anchor.centerLeft);
 
     //add components
 
@@ -136,6 +148,15 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     add(button);
     add(scoreText);
     add(levelText);
+    add(
+      SpriteComponent(
+          sprite: Sprite(
+            images.fromCache('star.png'),
+          ),
+          size: Vector2(20, 20),
+          position: Vector2(size.x - 24, 18),
+          anchor: Anchor.center),
+    );
   }
 
   void endGame() {
