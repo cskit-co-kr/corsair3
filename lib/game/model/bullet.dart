@@ -1,21 +1,22 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_game/game/controller/bullet_controller.dart';
 import 'package:flame_game/game/model/ship.dart';
 import 'package:flame_svg/flame_svg.dart';
 import 'dart:math' as math;
 
 import '../corsair_game.dart';
 
-class Bullet extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame> {
+class Bullet extends SpriteComponent with CollisionCallbacks, HasGameRef<CorsairGame> {
   double speed = 250;
   double? radian;
   Vector2? chiglel;
   Bullet({
-    Svg? bulletSvg,
+    Sprite? bulletSprite,
     Vector2? centerPosition,
     this.radian,
   }) : super(
-          svg: bulletSvg,
+          sprite: bulletSprite,
           size: Vector2(20, 20),
           position: centerPosition,
           anchor: Anchor.center,

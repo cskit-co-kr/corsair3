@@ -1,10 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flame_game/settings/game_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
-import '../game/corsair_game.dart';
 
 class MenuWidget extends StatefulWidget {
   Function setStates;
@@ -20,7 +16,11 @@ class _MenuWidgetState extends State<MenuWidget> {
     return Column(
       children: [
         Expanded(
-          child: Center(child: Text('tradingram')),
+          child: Center(
+              child: Text(
+            'tradingram',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          )),
         ),
         Padding(
           padding: EdgeInsets.only(bottom: 50),
@@ -32,7 +32,7 @@ class _MenuWidgetState extends State<MenuWidget> {
             child: Center(
                 child: Text(
               'play',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             )),
           ),
         ),

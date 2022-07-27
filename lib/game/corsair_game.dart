@@ -9,17 +9,19 @@ import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../settings/game_state.dart';
+
 class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   Sprite? background;
   Svg? shipSvg;
   Svg? enemySvg;
-  Svg? starSvg;
-  Svg? bulletSvg;
   Svg? buttonSvg;
+  late TextComponent scoreText;
+  late TextComponent levelText;
   @override
   Future onLoad() async {
     print(canvasSize);
-    await images.loadAll(['background.jpg']);
+    await images.loadAll(['background.jpg', 'destroy8.png', 'star.png', 'bullet.png']);
     SpriteComponent baackComp = SpriteComponent(
       sprite: Sprite(images.fromCache('background.jpg')),
       size: canvasSize,
@@ -40,18 +42,14 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     );
 
     //star
-    starSvg = await loadSvg('images/star.svg');
-    StarController star = StarController(
-      starSvg: starSvg,
-    );
+
+    StarController star = StarController();
 
     //bullet
-    bulletSvg = await loadSvg('images/bullet.svg');
-    BulletController bullet = BulletController(
-      bulletSvg: bulletSvg,
-    );
+
+    BulletController bullet = BulletController();
     //button
-    buttonSvg = await loadSvg('images/bullet.svg');
+    buttonSvg = await loadSvg('images/playbutton.svg');
 
     //add components
     ButtonComponent button = ButtonComponent(
@@ -60,11 +58,43 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
       position: Vector2(size.x / 2, size.y - 100),
       onPressed: ship.clickAction,
     );
+
+    scoreText = TextComponent(
+      text: 'Score: 0',
+      position: Vector2(300, 50),
+      textRenderer: TextPaint(
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+        ),
+      ),
+    );
+
+    levelText = TextComponent(
+      text: 'LEVEL 1',
+      position: Vector2(50, 50),
+      textRenderer: TextPaint(
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 12,
+        ),
+      ),
+    );
     add(baackComp);
     add(star);
     add(ship);
     add(bullet);
     add(enemy);
     add(button);
+    add(scoreText);
+    add(levelText);
+  }
+
+  @override
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+    scoreText.text = 'Score: ${GameState.score}';
+    levelText.text = 'LEVEL ${GameState.level}';
   }
 }

@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class GameState {
   static init() {}
   static GameType type = GameType.empty;
@@ -11,3 +13,33 @@ class GameState {
 }
 
 enum GameType { empty, loadingGame, playingGame, nextGame, overGame }
+
+// class GameSettings with ChangeNotifier {
+//   GameType _type = GameType.empty;
+//   GameType get type => _type;
+//   bool get isPlaying => _type == GameType.playingGame;
+//   void play() {
+//     _type = GameType.playingGame;
+//     notifyListeners();
+//   }
+
+//   void empty() {
+//     _type = GameType.empty;
+//     notifyListeners();
+//   }
+
+//   void over() {
+//     _type = GameType.overGame;
+//     notifyListeners();
+//   }
+
+//   void next() {
+//     _type = GameType.nextGame;
+//     notifyListeners();
+//   }
+
+//   void load() {
+//     _type = GameType.loadingGame;
+//     notifyListeners();
+//   }
+// }

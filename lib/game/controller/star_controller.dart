@@ -36,12 +36,11 @@ import 'dart:math' as math;
 
 class StarController extends Component with HasGameRef<CorsairGame> {
   late Timer timer;
-  Svg? starSvg;
   int coinCount = 30;
   int totalStep = 1;
 
-  StarController({this.starSvg}) {
-    timer = Timer(.05, onTick: generateBullet, repeat: true);
+  StarController() {
+    timer = Timer(.005, onTick: generateBullet, repeat: true);
   }
   generateBullet() {
     Vector2 centerPostion = gameRef.size / 2;
@@ -58,9 +57,9 @@ class StarController extends Component with HasGameRef<CorsairGame> {
     }
   }
 
-  generateStar(Vector2 starPosition) {
+  generateStar(Vector2 starPosition) async {
     double radian = math.Random().nextDouble() * math.pi * 2;
-    Star star = Star(starSvg: starSvg, position: starPosition);
+    Star star = Star(starSprite: Sprite(gameRef.images.fromCache('star.png')), position: starPosition);
     add(star);
   }
 

@@ -13,7 +13,11 @@ class _OverWidgetState extends State<OverWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(child: Text('You scored')),
+      child: Center(
+          child: Text(
+        'You scored',
+        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+      )),
     );
   }
 }
