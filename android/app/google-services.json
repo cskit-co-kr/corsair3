@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1031129044635",
+    "project_id": "corsair3-87e85",
+    "storage_bucket": "corsair3-87e85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031129044635:android:dd6fcb4387ab43c3c2583e",
+        "android_client_info": {
+          "package_name": "com.example.flame_game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031129044635-u3fbf8thlakfid58d08hukeqf3m2mvju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATeN9QczbvyrwSb2xOVU7qkE_63MYM_5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031129044635-u3fbf8thlakfid58d08hukeqf3m2mvju.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
