@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame_game/game/model/bullet.dart';
 import 'package:flame_game/settings/game_state.dart';
-import 'package:flame_svg/flame_svg.dart';
 
 import '../corsair_game.dart';
 import 'dart:math' as math;
@@ -14,33 +13,28 @@ class BulletController extends Component with HasGameRef<CorsairGame> {
   }
   generateBullet() async {
     if (GameState.type == GameType.playingGame) {
-      double radian = 0;
+      double shipDistanse = gameRef.mainDistanse;
+      double a;
+      double calcAngle = (GameState.shipSpeed * shipDistanse) / GameState.bulletSpeed;
       if (type == 0) {
-        //todo
-        if (gameRef.ship.isReverse) {
-          radian = -(gameRef.ship.speed + 250) / 2 + gameRef.ship.angle - gameRef.ship.speed;
-        } else {
-          radian = (gameRef.ship.speed + 250) / 2 + gameRef.ship.angle + gameRef.ship.speed;
-        }
-
+        a = gameRef.ship.gradus + (gameRef.ship.isReverse ? calcAngle : -calcAngle);
         type = 1;
       } else if (type == 1) {
-        double rrrrr = math.Random().nextDouble() * 2 * (math.pi / 3) - (math.pi / 3);
-        radian = gameRef.ship.angle + rrrrr;
+        a = gameRef.ship.gradus;
         type = 2;
+      } else if (type == 2) {
+        a = gameRef.ship.gradus + (math.Random().nextDouble() * 90 - 45);
+        type = 3;
       } else {
-        // double rrrrr = math.Random().nextDouble() * (math.pi / 3) - (math.pi / 6);
-        if (gameRef.ship.isReverse) {
-          radian = gameRef.ship.angle - math.pi * 6;
-        } else {
-          radian = gameRef.ship.angle - math.pi / 3;
-        }
-
+        a = gameRef.ship.gradus + (gameRef.ship.isReverse ? calcAngle : -calcAngle);
+        a += math.Random().nextDouble() * 60 - 30;
         type = 0;
       }
-      // double radian = gameRef.ship.angle - (math.pi / 2);
-
-      Bullet bullet = Bullet(bulletSprite: Sprite(gameRef.images.fromCache('bullet.png')), radian: radian, centerPosition: gameRef.canvasSize / 2);
+      Bullet bullet = Bullet(
+        bulletSprite: Sprite(gameRef.images.fromCache('bullet.png')),
+        gradus: a,
+        centerPosition: gameRef.centerPosition,
+      );
       add(bullet);
     }
   }

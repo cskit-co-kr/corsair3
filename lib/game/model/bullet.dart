@@ -1,34 +1,33 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_game/game/controller/bullet_controller.dart';
 import 'package:flame_game/game/model/ship.dart';
+import 'package:flame_game/game/util/utils.dart';
 import 'package:flame_game/settings/game_state.dart';
-import 'package:flame_svg/flame_svg.dart';
 import 'dart:math' as math;
 
 import '../corsair_game.dart';
 
 class Bullet extends SpriteComponent with CollisionCallbacks, HasGameRef<CorsairGame> {
-  double speed = 250;
-  double? radian;
+  double gradus;
   Vector2? chiglel;
+  double distanse = 0;
   Bullet({
     Sprite? bulletSprite,
     Vector2? centerPosition,
-    this.radian,
+    required this.gradus,
   }) : super(
           sprite: bulletSprite,
           size: Vector2(20, 20),
           position: centerPosition,
           anchor: Anchor.center,
-          angle: radian,
         ) {
-    chiglel = Vector2(math.cos(radian!), math.sin(radian!));
+    // chiglel = Vector2(math.cos(radian!), math.sin(radian!));
   }
   @override
   void update(double dt) {
     super.update(dt);
-    position += chiglel! * speed * dt;
+    distanse += GameState.bulletSpeed * dt;
+    position = Utils.getPosition(gameRef.centerPosition, gradus, distanse);
     if (position.y > gameRef.size.y || position.x > gameRef.size.x || position.y < 0 || position.x < 0) {
       removeFromParent();
     }
@@ -37,6 +36,8 @@ class Bullet extends SpriteComponent with CollisionCallbacks, HasGameRef<Corsair
   @override
   void onMount() {
     super.onMount();
+    // angle = Utils.getRadian(gradus) + math.pi / 2;
+    angle = -Utils.getRadian(gradus) + math.pi / 2;
     CircleHitbox shape = CircleHitbox.relative(
       0.8,
       parentSize: size,
