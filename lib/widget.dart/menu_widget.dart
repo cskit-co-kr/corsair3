@@ -14,15 +14,15 @@ class _MenuWidgetState extends State<MenuWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Text(
-          'Tradingram',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        Column(
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height / 9),
+            ScoreWidget(isResult: false, listScore: Score().defaultList, name: 'byambaa'),
+            SizedBox(height: MediaQuery.of(context).size.height / 10),
+          ],
         ),
-        const SizedBox(height: 20),
-        ScoreWidget(isResult: false, listScore: Score().defaultList, name: 'byambaa'),
-        const SizedBox(height: 20),
         InkWell(
           onTap: () {
             GameState.type = GameType.loadingGame;
@@ -34,7 +34,7 @@ class _MenuWidgetState extends State<MenuWidget> {
               width: 150,
               height: 50,
               decoration: BoxDecoration(
-                color: const Color(0xFFE7C7C7),
+                color: const Color(0xFFFFE9D8),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Center(
