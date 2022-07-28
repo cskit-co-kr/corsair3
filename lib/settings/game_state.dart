@@ -7,8 +7,12 @@ class GameState {
   static String email = '';
   static String name = '';
   static int userMaxScore = 0;
-  static int level = 0;
+  static int level = 1;
   static int score = 0;
+  static double shipSpeed = 100;
+  static double bulletSpeed = 150;
+  static int coinCount = 29;
+
   static clickMoment() {}
 }
 

@@ -3,59 +3,54 @@ import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_game/game/model/bullet.dart';
 import 'package:flame_game/game/model/star.dart';
+import 'package:flame_game/game/util/utils.dart';
 import 'package:flame_svg/flame_svg.dart';
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import '../../settings/game_state.dart';
 import '../corsair_game.dart';
 
 class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame> {
-  double speed = 0.032;
-  double radian = -math.pi / 2;
   bool isReverse = false;
   Function setStates;
   Function nextlevel;
   int coinCount = 0;
-  // late AudioPool pool;
+  double gradus = 0;
 
   Ship({
     required this.setStates,
     required this.nextlevel,
     Svg? shipSvg,
-    Vector2? position,
+    double? gradusa,
   }) : super(
           svg: shipSvg,
           size: Vector2(33, 33),
-          position: position,
           anchor: Anchor.center,
         ) {
     coinCount = 29;
+    gradus = gradusa ?? 0;
   }
   @override
   void update(double dt) {
     super.update(dt);
     if (GameState.type == GameType.playingGame) {
-      if (isReverse) {
-        radian -= speed;
-      } else {
-        radian += speed;
-      }
-      x = gameRef.canvasSize.x * .43 * math.cos(radian);
-      y = gameRef.canvasSize.x * .43 * math.sin(radian);
-      position = Vector2(gameRef.canvasSize.x / 2 + x, gameRef.canvasSize.y / 2 + y);
+      var add = (dt * GameState.shipSpeed);
 
-      angle = isReverse ? -math.pi / 2 + radian : math.pi / 2 + radian;
-    } else {
-      position = Vector2(gameRef.canvasSize.x / 2, gameRef.canvasSize.y / 2 - gameRef.canvasSize.y / 2 * .43);
-      angle = 0;
-      anchor = Anchor.center;
-    }
+      if (isReverse) {
+        gradus += add;
+      } else {
+        gradus -= add;
+      }
+      position = Utils.getPosition(gameRef.centerPosition, gradus, gameRef.mainDistanse);
+
+      angle = isReverse ? -Utils.getRadian(gradus) : math.pi - Utils.getRadian(gradus);
+    } else {}
   }
 
   @override
   void onMount() async {
     super.onMount();
+    position = Utils.getPosition(gameRef.centerPosition, gradus, gameRef.mainDistanse);
     // pool = await FlameAudio.createPool(
     //   'explosion.mp3',
     //   minPlayers: 1,

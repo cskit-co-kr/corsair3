@@ -7,12 +7,16 @@ import 'package:flame_game/game/controller/star_controller.dart';
 import 'package:flame_game/game/model/enemy.dart';
 import 'package:flame_game/game/model/ship.dart';
 import 'package:flame_svg/flame_svg.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../settings/game_state.dart';
 
 class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
+  //gameSettings
+  late Vector2 centerPosition;
+  late double mainDistanse;
+
+  //
   Svg? shipSvg;
   Svg? enemySvg;
   Svg? buttonSvg;
@@ -28,6 +32,12 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   CorsairGame({required this.setStates});
   @override
   Color backgroundColor() => Colors.transparent;
+  @override
+  void onGameResize(Vector2 canvasSize) {
+    super.onGameResize(canvasSize);
+    centerPosition = Vector2(size.x / 2, size.y * .35);
+    mainDistanse = size.x * .38;
+  }
 
   @override
   Future onLoad() async {
@@ -43,8 +53,6 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   }
 
   Future refreshData() async {
-    // remove(ship);
-
     remove(star);
 
     if (children.contains(ship)) remove(ship);
@@ -59,8 +67,6 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
 
   void nextlevel() async {
     GameState.type = GameType.nextGame;
-    // button.button.= await loadSvg('images/ship.svg');
-
     GameState.level++;
     refreshData();
   }
@@ -69,10 +75,6 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     if (GameState.type == GameType.playingGame) {
       ship.isReverse = !ship.isReverse;
     } else if (GameState.type == GameType.loadingGame || GameState.type == GameType.nextGame) {
-      //if (GameState.type != GameType.playingGame) {
-      // refreshData();
-      // button.button = SvgComponent(svg: await loadSvg('images/playbutton.svg'), size: Vector2(90, 90));
-
       GameState.type = GameType.playingGame;
     }
   }
@@ -83,13 +85,13 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
       nextlevel: nextlevel,
       setStates: setStates,
       shipSvg: await loadSvg('images/ship.svg'),
-      position: Vector2(canvasSize.x * 0.5, canvasSize.y * 0.3),
+      gradusa: 0,
     );
 
     //enemy
     enemy = Enemy(
       enemySvg: await loadSvg('images/enemy.svg'),
-      position: Vector2(canvasSize.x * 0.5, canvasSize.y * 0.5),
+      position: centerPosition,
     );
 
     //star
@@ -103,7 +105,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     button = ButtonComponent(
       button: SvgComponent(svg: await loadSvg('images/repeat.svg'), size: Vector2(90, 90)),
       anchor: Anchor.center,
-      position: Vector2(size.x / 2, size.y - 100),
+      position: Vector2(size.x / 2, size.y * .85),
       onPressed: (() {
         // add(
         //   ScaleEffect.by(
