@@ -7,7 +7,7 @@ import 'package:flame_game/game/model/star.dart';
 import 'package:flame_game/game/util/utils.dart';
 import 'package:flame_svg/flame_svg.dart';
 import 'dart:math' as math;
-
+import 'package:flame_audio/flame_audio.dart';
 import '../../settings/game_state.dart';
 import '../corsair_game.dart';
 
@@ -51,6 +51,8 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
   @override
   void onMount() async {
     super.onMount();
+    FlameAudio.bgm.play('explosion.mp3');
+
     position = Utils.getPosition(gameRef.centerPosition, gradus, gameRef.mainDistanse);
     // pool = await FlameAudio.createPool(
     //   'explosion.mp3',
@@ -112,7 +114,7 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     await Future.delayed(const Duration(seconds: 2), () {
       setStates();
       // gameRef.endGame();
-      print('endshipaa');
+      // print('endshipaa');
     });
   }
 }

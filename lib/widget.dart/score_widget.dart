@@ -6,15 +6,16 @@ import '../settings/game_state.dart';
 class ScoreWidget extends StatelessWidget {
   String name;
   bool isResult;
-  ScoreWidget({Key? key, this.name = '', this.isResult = false})
+  ScoreWidget({Key? key,this.name = '', this.isResult = false})
       : super(key: key);
-  final Stream<QuerySnapshot> snapshot = FirebaseFirestore.instance
-      .collection('users')
-      .orderBy('score', descending: true)
-      .limit(5)
-      .snapshots();
+
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> snapshot = FirebaseFirestore.instance
+        .collection('users')
+        .orderBy('score', descending: true)
+        .limit(5)
+        .snapshots();
     return Container(
       height: isResult
           ? MediaQuery.of(context).size.height * 0.62

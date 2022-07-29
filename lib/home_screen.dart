@@ -17,16 +17,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final Stream<QuerySnapshot> snapshot = FirebaseFirestore.instance
-      .collection('users')
-      .orderBy('score', descending: true).limit(10)
-      .snapshots();
+
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     Timer.run(() => showAlert(context));
 
   }
@@ -78,10 +75,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         controller: emailController,
-                        decoration: InputDecoration(hintText: "Email", border: OutlineInputBorder()),
+                        decoration: const InputDecoration(hintText: "Email", border: OutlineInputBorder()),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter a valid email address';
@@ -97,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         controller: nameController,
                         decoration:const InputDecoration(hintText: "Name", border: OutlineInputBorder()),
@@ -116,19 +113,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (_formKey.currentState!.validate()) {
                             GameState.email = emailController.text;
                             GameState.name = nameController.text;
-                            users
-                                .add({
-                              // 'email': emailController.text, // John Doe
+                            users.add({
                               'name': nameController.text, // Stokes and Sons
                               'score': 0 // 42
                             })
-                                .then((value) => GameState.userId = value.id)
+                                .then((value) => {
+                                  GameState.userId = value.id,
+                                  print("value id : ${value.id}")
+                                })
                                 .catchError((error) => print("Failed to add user: $error"));
                             _formKey.currentState!.save();
                             Navigator.pop(context);
                           }
                         },
-                        child: Text("Add"),
+                        child: const Text("Add"),
                       ),
                     )
                   ],

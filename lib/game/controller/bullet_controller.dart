@@ -24,7 +24,7 @@ class BulletController extends Component with HasGameRef<CorsairGame> {
         a = gameRef.ship.gradus;
         type = 2;
       } else if (type == 2) {
-        a = gameRef.ship.gradus + (math.Random().nextDouble() * 30);
+        a = gameRef.ship.gradus + (math.Random().nextDouble() * 30 - 45);
         type = 3;
       } else {
         a = gameRef.ship.gradus + (gameRef.ship.isReverse ? calcAngle : -calcAngle);

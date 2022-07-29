@@ -73,7 +73,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     if (GameState.level > 10) {
       GameState.shipSpeed = GameState.shipSpeed * 1.1;
     }
-    GameState.bulletSpeed = GameState.bulletSpeed * 1.1;
+    GameState.bulletSpeed = GameState.bulletSpeed * 1.15;
     GameState.score += 10;
     GameState.level++;
     refreshData();
