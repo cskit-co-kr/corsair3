@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame_game/settings/game_state.dart';
 import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 import '../corsair_game.dart';
@@ -43,19 +44,27 @@ class Enemy extends Component with HasGameRef<CorsairGame> {
     );
     CircleComponent blur;
     blur = CircleComponent(
-      radius: 45,
-      anchor: Anchor.center,
-      position: position,
-      paint: Paint()
-        ..shader = ui.Gradient.radial(
-          Offset(45, 45),
-          45,
-          [
-            Color(0xFFffffff),
-            Color(0xFFffffff).withOpacity(0),
-          ],
-        ),
-    );
+        radius: 45,
+        anchor: Anchor.center,
+        position: position,
+        paint: Paint()
+          // ..shader = ui.Gradient.radial(
+          //   Offset(45, 45),
+          //   45,
+          //   [
+          //     Color(0xFFffffff),
+          //     Color(0xFFffffff).withOpacity(0),
+          //   ],
+          // ),
+          ..shader = RadialGradient(
+            colors: [
+              Colors.white.withOpacity(0.5),
+              Colors.white.withOpacity(0.5),
+              Colors.white.withOpacity(0.5),
+              Colors.transparent,
+              Colors.transparent,
+            ],
+          ).createShader(Rect.fromCircle(center: Offset(45, 45), radius: 65)));
     add(blur);
     add(component1);
     add(component2);

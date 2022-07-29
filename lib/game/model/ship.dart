@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
@@ -73,6 +74,14 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
       // pool.start();
       gameRef.camera.shake(intensity: 5);
       destroy();
+
+      CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+      if (GameState.userMaxScore < GameState.score) {
+        GameState.userMaxScore = GameState.score;
+      }
+
+      users.doc(GameState.userId).update({'score': GameState.userMaxScore});
 
       // removeFromParent();
     } else if (other is Star) {

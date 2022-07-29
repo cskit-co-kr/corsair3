@@ -43,24 +43,13 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
 
   @override
   Future onLoad() async {
-    await images
-        .loadAll(['background.jpg', 'destroy8.png', 'star.png', 'bullet.png']);
+    await images.loadAll(['background.jpg', 'destroy8.png', 'star.png', 'bullet.png']);
     await initData();
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    if (GameState.type == GameType.overGame) {
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
-
-      if (GameState.userMaxScore < GameState.score) {
-        GameState.userMaxScore = GameState.score;
-      }
-
-      users.doc(GameState.userId).update({'score': GameState.userMaxScore});
-    }
 
     scoreText.text = '${GameState.score}';
     levelText.text = 'LEVEL  ${GameState.level}';
@@ -93,8 +82,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   void clickAction() async {
     if (GameState.type == GameType.playingGame) {
       ship.isReverse = !ship.isReverse;
-    } else if (GameState.type == GameType.loadingGame ||
-        GameState.type == GameType.nextGame) {
+    } else if (GameState.type == GameType.loadingGame || GameState.type == GameType.nextGame) {
       GameState.type = GameType.playingGame;
     }
   }
@@ -135,8 +123,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     bullet = BulletController();
     //button
     button = ButtonComponent(
-      button: SvgComponent(
-          svg: await loadSvg('images/reverse.svg'), size: Vector2(90, 90)),
+      button: SvgComponent(svg: await loadSvg('images/reverse.svg'), size: Vector2(90, 90)),
       anchor: Anchor.center,
       position: Vector2(size.x / 2, size.y * .85),
       onPressed: (() {
