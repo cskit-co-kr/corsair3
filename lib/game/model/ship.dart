@@ -51,7 +51,6 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
   @override
   void onMount() async {
     super.onMount();
-    FlameAudio.bgm.play('explosion.mp3');
 
     position = Utils.getPosition(gameRef.centerPosition, gradus, gameRef.mainDistanse);
     // pool = await FlameAudio.createPool(
