@@ -13,24 +13,25 @@ class MenuWidget extends StatefulWidget {
 class _MenuWidgetState extends State<MenuWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height / 9),
-            ScoreWidget(isResult: false, listScore: Score().defaultList, name: 'byambaa'),
-            SizedBox(height: MediaQuery.of(context).size.height / 12),
-          ],
-        ),
-        InkWell(
-          onTap: () {
-            GameState.type = GameType.loadingGame;
-            GameState.score = 0;
-            GameState.level = 1;
-            widget.setStates();
-          },
-          child: Container(
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height / 9),
+              ScoreWidget(isResult: false, listScore: Score().defaultList, name: 'byambaa'),
+              SizedBox(height: MediaQuery.of(context).size.height / 12),
+            ],
+          ),
+          InkWell(
+            onTap: () {
+              GameState.type = GameType.loadingGame;
+              GameState.score = 0;
+              GameState.level = 1;
+              widget.setStates();
+            },
+            child: Container(
               width: 150,
               height: 50,
               decoration: BoxDecoration(
@@ -42,9 +43,11 @@ class _MenuWidgetState extends State<MenuWidget> {
                   'Play',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
                 ),
-              )),
-        ),
-      ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
