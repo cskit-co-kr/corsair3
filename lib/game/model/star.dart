@@ -1,10 +1,12 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/audio_pool.dart';
+import 'package:flame_audio/flame_audio.dart';
+import 'package:flame_game/game/corsair_game.dart';
 import 'package:flame_game/game/model/ship.dart';
 import 'package:flame_game/settings/game_state.dart';
 
-class Star extends SpriteComponent with CollisionCallbacks {
-  // late AudioPool pool;
+class Star extends SpriteComponent with HasGameRef<CorsairGame>, CollisionCallbacks {
   Star({
     Sprite? starSprite,
     Vector2? position,
@@ -23,6 +25,7 @@ class Star extends SpriteComponent with CollisionCallbacks {
       position: size / 2,
       anchor: Anchor.center,
     );
+
     add(shape);
   }
 
@@ -30,6 +33,7 @@ class Star extends SpriteComponent with CollisionCallbacks {
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is Ship) {
+      gameRef.pool.start();
       removeFromParent();
       print('dhfjashf lasd asd  ${parent}');
       GameState.score++;

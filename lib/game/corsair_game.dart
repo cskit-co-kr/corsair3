@@ -5,8 +5,11 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flame_audio/audio_pool.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_game/game/controller/bullet_controller.dart';
 import 'package:flame_game/game/controller/star_controller.dart';
+import 'package:flame_game/game/model/button.dart';
 import 'package:flame_game/game/model/dashed_circle.dart';
 import 'package:flame_game/game/model/enemy.dart';
 import 'package:flame_game/game/model/ship.dart';
@@ -17,6 +20,8 @@ import '../settings/game_state.dart';
 
 class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   //gameSettings
+  late AudioPool pool;
+  late AudioPool dest;
   late Vector2 centerPosition;
   late double mainDistanse;
 
@@ -29,6 +34,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   late Enemy enemy;
   late Ship ship;
   late ButtonComponent button;
+  late MyButtonComponent playButton;
   late BulletController bullet;
 
   CorsairGame({required this.setStates});
@@ -44,6 +50,16 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   @override
   Future onLoad() async {
     await images.loadAll(['background.jpg', 'destroy8.png', 'star.png', 'bullet.png']);
+    pool = await FlameAudio.createPool(
+      'coin2.mp3',
+      minPlayers: 1,
+      maxPlayers: 4,
+    );
+    dest = await FlameAudio.createPool(
+      'explosion.mp3',
+      minPlayers: 1,
+      maxPlayers: 4,
+    );
     await initData();
   }
 
@@ -121,6 +137,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     //bullet
 
     bullet = BulletController();
+
     //button
     button = ButtonComponent(
       button: SvgComponent(svg: await loadSvg('images/reverse.svg'), size: Vector2(90, 90)),

@@ -73,6 +73,7 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     if (other is Bullet) {
       // pool.start();
       gameRef.camera.shake(intensity: 5);
+      gameRef.dest.start();
       destroy();
 
       CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -109,7 +110,7 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     gameRef.add(sac);
     GameState.type = GameType.overGame;
     GameState.bulletSpeed = 200;
-    await Future.delayed(const Duration(seconds: 2), () {
+    await Future.delayed(const Duration(seconds: 3), () {
       setStates();
       // gameRef.endGame();
       print('endshipaa');
