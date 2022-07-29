@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flame_game/settings/game_state.dart';
 import 'package:flame_game/widget.dart/score_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class MenuWidget extends StatefulWidget {
 }
 
 class _MenuWidgetState extends State<MenuWidget> {
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -22,7 +24,7 @@ class _MenuWidgetState extends State<MenuWidget> {
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           ),
           const SizedBox(height: 20),
-          ScoreWidget(isResult: false, listScore: Score().defaultList, name: 'byambaa'),
+          ScoreWidget(isResult: false, name: 'byambaa'),
           const SizedBox(height: 20),
           InkWell(
             onTap: () {

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
@@ -48,6 +49,16 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   @override
   void update(double dt) {
     super.update(dt);
+    if(GameState.type == GameType.overGame){
+      CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+      if(GameState.userMaxScore < GameState.score){
+        GameState.userMaxScore = GameState.score;
+      }
+
+      users.doc(GameState.userId).update({'score': GameState.userMaxScore});
+    }
+
     scoreText.text = '${GameState.score}';
     levelText.text = 'LEVEL  ${GameState.level}';
   }
@@ -67,6 +78,11 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
 
   void nextlevel() async {
     GameState.type = GameType.nextGame;
+    if(GameState.level > 10){
+      GameState.shipSpeed = GameState.shipSpeed * 1.1;
+    }
+    GameState.bulletSpeed = GameState.bulletSpeed * 1.1;
+    GameState.score += 10;
     GameState.level++;
     refreshData();
   }

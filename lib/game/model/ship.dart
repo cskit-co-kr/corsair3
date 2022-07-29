@@ -98,6 +98,7 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     removeFromParent();
     gameRef.add(sac);
     GameState.type = GameType.overGame;
+    GameState.bulletSpeed = 200;
     await Future.delayed(const Duration(seconds: 2), () {
       setStates();
       // gameRef.endGame();

@@ -1,13 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../settings/game_state.dart';
 
 class ScoreWidget extends StatelessWidget {
-  List<Score>? listScore;
   String name;
   bool isResult;
-  ScoreWidget({Key? key, this.listScore, this.name = '', this.isResult = false}) : super(key: key);
-
+  ScoreWidget({Key? key, this.name = '', this.isResult = false})
+      : super(key: key);
+  final Stream<QuerySnapshot> snapshot = FirebaseFirestore.instance
+      .collection('users')
+      .orderBy('score', descending: true)
+      .limit(5)
+      .snapshots();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +33,7 @@ class ScoreWidget extends StatelessWidget {
           const SizedBox(height: 40),
           if (isResult)
             Container(
-              margin: EdgeInsets.only(bottom: 20),
+              margin: const EdgeInsets.only(bottom: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -39,12 +44,36 @@ class ScoreWidget extends StatelessWidget {
                   ),
                   Text(
                     '${GameState.score}',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Color(0xFF722F2F)),
                   ),
                 ],
               ),
             ),
-          ...List.generate(listScore!.length, (index) => scoreItem(listScore![index])),
+          Expanded(
+              child: Container(
+                child: StreamBuilder(
+                  stream: snapshot,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: Text("Empty"),
+                      );
+                    }
+                    return ListView(
+                      scrollDirection: Axis.vertical,
+                      children: snapshot.data!.docs.map((DocumentSnapshot doc) {
+                        return scoreItem(Score(name: doc['name'], point: doc['score']));
+                      }).toList(),
+                    );
+                  },
+                ),
+              )
+            )
+          // ...List.generate(listScore!.length, (index) => scoreItem(listScore![index])),
         ],
       ),
     );
@@ -79,11 +108,4 @@ class Score {
   String? name;
   int? point;
   Score({this.name, this.point});
-  List<Score> get defaultList => [
-        Score(name: 'Namuun', point: 100),
-        Score(name: 'byamba', point: 80),
-        Score(name: 'nyam', point: 150),
-        Score(name: 'davaa', point: 200),
-        Score(name: 'myagmar', point: 40),
-      ];
 }

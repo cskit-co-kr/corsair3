@@ -19,7 +19,7 @@ class _OverWidgetState extends State<OverWidget> {
         Column(
           children: [
             SizedBox(height: MediaQuery.of(context).size.height / 9),
-            ScoreWidget(isResult: true, listScore: Score().defaultList, name: 'byambaa'),
+            ScoreWidget(isResult: true, name: 'byambaa'),
             SizedBox(height: MediaQuery.of(context).size.height / 15),
           ],
         ),
@@ -42,7 +42,8 @@ class _OverWidgetState extends State<OverWidget> {
                   'Restart',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
                 ),
-              )),
+              )
+          ),
         ),
       ],
     );
