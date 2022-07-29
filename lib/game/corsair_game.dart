@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_game/game/controller/bullet_controller.dart';
 import 'package:flame_game/game/controller/star_controller.dart';
+import 'package:flame_game/game/model/dashed_circle.dart';
 import 'package:flame_game/game/model/enemy.dart';
 import 'package:flame_game/game/model/ship.dart';
 import 'package:flame_svg/flame_svg.dart';
@@ -16,12 +19,9 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   late Vector2 centerPosition;
   late double mainDistanse;
 
-  //
-  Svg? shipSvg;
-  Svg? enemySvg;
-  Svg? buttonSvg;
   late TextComponent scoreText;
   late TextComponent levelText;
+  late DashedCircle circle;
   Function setStates;
 
   late StarController star;
@@ -29,14 +29,15 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   late Ship ship;
   late ButtonComponent button;
   late BulletController bullet;
+
   CorsairGame({required this.setStates});
   @override
   Color backgroundColor() => Colors.transparent;
   @override
   void onGameResize(Vector2 canvasSize) {
     super.onGameResize(canvasSize);
-    centerPosition = Vector2(size.x / 2, size.y * .35);
-    mainDistanse = size.x * .38;
+    centerPosition = Vector2(size.x / 2, size.y * .4);
+    mainDistanse = (size.x < size.y * .7) ? size.x * .38 : size.y * .7 * .36;
   }
 
   @override
@@ -80,6 +81,17 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   }
 
   Future initData() async {
+    //circle
+    circle = DashedCircle(
+        radius: mainDistanse,
+        // position: Vector2(size.x / 8, size.y * .16),
+        center: centerPosition,
+        dashes: 180,
+        gapSize: 0.5,
+        paint: Paint()
+          ..color = Colors.white.withOpacity(0.1)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2);
     //ship
     ship = Ship(
       nextlevel: nextlevel,
@@ -90,7 +102,8 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
 
     //enemy
     enemy = Enemy(
-      enemySvg: await loadSvg('images/enemy.svg'),
+      svg1: await loadSvg('images/enemy.svg'),
+      size: Vector2(105, 105),
       position: centerPosition,
     );
 
@@ -103,7 +116,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     bullet = BulletController();
     //button
     button = ButtonComponent(
-      button: SvgComponent(svg: await loadSvg('images/repeat.svg'), size: Vector2(90, 90)),
+      button: SvgComponent(svg: await loadSvg('images/reverse.svg'), size: Vector2(90, 90)),
       anchor: Anchor.center,
       position: Vector2(size.x / 2, size.y * .85),
       onPressed: (() {
@@ -143,6 +156,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
 
     //add components
 
+    add(circle);
     add(star);
     add(ship);
     add(bullet);

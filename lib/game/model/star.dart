@@ -10,7 +10,7 @@ class Star extends SpriteComponent with CollisionCallbacks {
     Vector2? position,
   }) : super(
           sprite: starSprite,
-          size: Vector2(20, 20),
+          size: Vector2(22, 22),
           position: position,
           anchor: Anchor.center,
         );

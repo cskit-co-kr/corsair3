@@ -24,10 +24,10 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     double? gradusa,
   }) : super(
           svg: shipSvg,
-          size: Vector2(33, 33),
+          size: Vector2(36, 36),
           anchor: Anchor.center,
         ) {
-    coinCount = 29;
+    coinCount = GameState.coinCount;
     gradus = gradusa ?? 0;
   }
   @override
@@ -71,6 +71,7 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     super.onCollision(intersectionPoints, other);
     if (other is Bullet) {
       // pool.start();
+      gameRef.camera.shake(intensity: 5);
       destroy();
 
       // removeFromParent();

@@ -20,7 +20,7 @@ class _MenuWidgetState extends State<MenuWidget> {
           children: [
             SizedBox(height: MediaQuery.of(context).size.height / 9),
             ScoreWidget(isResult: false, listScore: Score().defaultList, name: 'byambaa'),
-            SizedBox(height: MediaQuery.of(context).size.height / 10),
+            SizedBox(height: MediaQuery.of(context).size.height / 12),
           ],
         ),
         InkWell(
@@ -34,7 +34,7 @@ class _MenuWidgetState extends State<MenuWidget> {
               width: 150,
               height: 50,
               decoration: BoxDecoration(
-                color: const Color(0xFFFFE9D8),
+                color: const Color(0xFFFFF5F5),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Center(
