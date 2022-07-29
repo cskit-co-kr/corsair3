@@ -74,7 +74,10 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     if (other is Bullet) {
       // pool.start();
       gameRef.camera.shake(intensity: 5);
-      gameRef.dest.start();
+      // gameRef.dest.start();
+
+      // FlameAudio.audioCache.play('sfx/coin2.mp3');
+
       destroy();
 
       CollectionReference users = FirebaseFirestore.instance.collection('users');

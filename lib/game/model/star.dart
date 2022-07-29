@@ -33,7 +33,9 @@ class Star extends SpriteComponent with HasGameRef<CorsairGame>, CollisionCallba
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is Ship) {
-      gameRef.pool.start();
+      // gameRef.pool.start();
+      FlameAudio.play('sfx/explosion.mp3');
+
       removeFromParent();
       print('dhfjashf lasd asd  ${parent}');
       GameState.score++;
