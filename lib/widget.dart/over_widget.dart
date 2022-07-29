@@ -20,7 +20,7 @@ class _OverWidgetState extends State<OverWidget> {
           children: [
             SizedBox(height: MediaQuery.of(context).size.height / 9),
             ScoreWidget(isResult: true, name: 'byambaa'),
-            SizedBox(height: MediaQuery.of(context).size.height / 15),
+            SizedBox(height: MediaQuery.of(context).size.height / 12),
           ],
         ),
         InkWell(
@@ -34,16 +34,18 @@ class _OverWidgetState extends State<OverWidget> {
               width: 150,
               height: 50,
               decoration: BoxDecoration(
-                color: const Color(0xFFFFE9D8),
+                color: const Color(0xFFFFF5F5),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Center(
                 child: Text(
                   'Restart',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Color(0xFF722F2F)),
                 ),
-              )
-          ),
+              )),
         ),
       ],
     );

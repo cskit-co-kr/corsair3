@@ -16,21 +16,25 @@ class ScoreWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500,
+      height: isResult
+          ? MediaQuery.of(context).size.height * 0.62
+          : MediaQuery.of(context).size.height * 0.52,
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
-        color: const Color(0xFFF4DEDA),
+        color: const Color(0xFFFFF5F5),
         borderRadius: BorderRadius.circular(16),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 19),
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
       child: Column(
         children: [
           Text(
             isResult ? 'You scored' : 'Welcome',
             style: const TextStyle(fontSize: 20, color: Color(0xFF722F2F)),
           ),
-          const SizedBox(height: 40),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.01,
+          ),
           if (isResult)
             Container(
               margin: const EdgeInsets.only(bottom: 20),
@@ -54,25 +58,26 @@ class ScoreWidget extends StatelessWidget {
             ),
           Expanded(
               child: Container(
-                child: StreamBuilder(
-                  stream: snapshot,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(
-                        child: Text("Empty"),
-                      );
-                    }
-                    return ListView(
-                      scrollDirection: Axis.vertical,
-                      children: snapshot.data!.docs.map((DocumentSnapshot doc) {
-                        return scoreItem(Score(name: doc['name'], point: doc['score']));
-                      }).toList(),
-                    );
-                  },
-                ),
-              )
-            )
+            height: MediaQuery.of(context).size.height * 0.37,
+            child: StreamBuilder(
+              stream: snapshot,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: Text("Empty"),
+                  );
+                }
+                return ListView(
+                  scrollDirection: Axis.vertical,
+                  children: snapshot.data!.docs.map((DocumentSnapshot doc) {
+                    return scoreItem(
+                        Score(name: doc['name'], point: doc['score']));
+                  }).toList(),
+                );
+              },
+            ),
+          ))
           // ...List.generate(listScore!.length, (index) => scoreItem(listScore![index])),
         ],
       ),
@@ -84,7 +89,7 @@ class ScoreWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFE7C7C7),
+        color: const Color(0xFFFFE9D8),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
