@@ -73,7 +73,7 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     if (other is Bullet) {
       // pool.start();
       gameRef.dest.start();
-      gameRef.camera.shake(intensity: 5);
+      gameRef.camera.shake(intensity: 1);
 
       destroy();
 
