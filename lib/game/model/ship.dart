@@ -45,7 +45,10 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
       position = Utils.getPosition(gameRef.centerPosition, gradus, gameRef.mainDistanse);
 
       angle = isReverse ? -Utils.getRadian(gradus) : math.pi - Utils.getRadian(gradus);
-    } else {}
+    }
+    if (coinCount < 2) {
+      nextlevel();
+    }
   }
 
   @override
@@ -53,11 +56,7 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     super.onMount();
 
     position = Utils.getPosition(gameRef.centerPosition, gradus, gameRef.mainDistanse);
-    // pool = await FlameAudio.createPool(
-    //   'explosion.mp3',
-    //   minPlayers: 1,
-    //   maxPlayers: 4,
-    // );
+
     final shape = CircleHitbox.relative(
       1.0,
       parentSize: size,
@@ -84,15 +83,15 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
         GameState.userMaxScore = GameState.score;
       }
 
-      users.doc(GameState.userId).update({'score': GameState.userMaxScore});
+      // users.doc(GameState.userId).update({'score': GameState.userMaxScore});
 
       // removeFromParent();
-    } else if (other is Star) {
-      coinCount--;
-      if (coinCount < 2) {
-        nextlevel();
-      }
     }
+    // else
+    // if (other is Star) {
+    //   // coinCount--;
+
+    // }
   }
 
   void destroy() async {
@@ -112,6 +111,7 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     gameRef.add(sac);
     GameState.type = GameType.overGame;
     GameState.bulletSpeed = 200;
+    GameState.bulletFrac = .4;
     await Future.delayed(const Duration(seconds: 3), () {
       setStates();
       // gameRef.endGame();

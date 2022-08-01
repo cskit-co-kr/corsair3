@@ -83,16 +83,20 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     remove(button);
     remove(scoreText);
     remove(levelText);
+    if (children.contains(circle)) remove(circle);
 
     await initData();
   }
 
   void nextlevel() async {
     GameState.type = GameType.nextGame;
-    if (GameState.level > 10) {
+    if (GameState.level % 10 == 0) {
       GameState.shipSpeed = GameState.shipSpeed * 1.1;
     }
-    GameState.bulletSpeed = GameState.bulletSpeed * 1.15;
+    GameState.bulletSpeed = GameState.bulletSpeed * 1.1;
+    GameState.bulletFrac = GameState.bulletFrac * .9;
+
+    print('bulletPseed :: ${GameState.bulletSpeed} :::: ${GameState.bulletFrac}:::: ${GameState.shipSpeed}');
     GameState.score += 10;
     GameState.level++;
     refreshData();
@@ -101,6 +105,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   void clickAction() async {
     if (GameState.type == GameType.playingGame) {
       ship.isReverse = !ship.isReverse;
+      bullet.fireMode = 3;
     } else if (GameState.type == GameType.loadingGame || GameState.type == GameType.nextGame) {
       GameState.type = GameType.playingGame;
     }
@@ -147,12 +152,6 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
       anchor: Anchor.center,
       position: Vector2(size.x / 2, size.y * .85),
       onPressed: (() {
-        // add(
-        //   ScaleEffect.by(
-        //     Vector2.all(1.1),
-        //     EffectController(duration: 0.2, reverseDuration: 0.2),
-        //   ),
-        // );
         clickAction();
       }),
     );

@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class GameState {
   static init() {}
   static GameType type = GameType.empty;
@@ -10,8 +8,9 @@ class GameState {
   static int level = 1;
   static int score = 0;
   static double shipSpeed = 100;
-  static double bulletSpeed = 130;
+  static double bulletSpeed = 200;
   static int coinCount = 26;
+  static double bulletFrac = .4;
 
   static clickMoment() {}
 }
