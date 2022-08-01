@@ -17,6 +17,7 @@ import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/material.dart';
 
 import '../settings/game_state.dart';
+import 'model/star.dart';
 
 class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   //gameSettings
@@ -191,13 +192,14 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     add(scoreText);
     add(levelText);
     add(
-      SpriteComponent(
-          sprite: Sprite(
-            images.fromCache('star.png'),
-          ),
-          size: Vector2(20, 20),
-          position: Vector2(size.x - 24, 18),
-          anchor: Anchor.center),
+      // SpriteComponent(
+      //     sprite: Sprite(
+      //       images.fromCache('star.png'),
+      //     ),
+      //     size: Vector2(20, 20),
+      //     position: Vector2(size.x - 24, 18),
+      //     anchor: Anchor.center),
+      Star(position: Vector2(size.x - 24, 18), starSize: 20),
     );
   }
 

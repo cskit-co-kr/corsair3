@@ -29,7 +29,6 @@ class StarController extends Component with HasGameRef<CorsairGame> {
   }
 
   generateStar(Vector2 starPosition) async {
-    double radian = math.Random().nextDouble() * math.pi * 2;
     Star star = Star(position: starPosition, starSize: 22);
     // Star star = Star(starSprite: Sprite(gameRef.images.fromCache('star.png')), position: starPosition);
     add(star);
