@@ -20,10 +20,11 @@ import '../settings/game_state.dart';
 
 class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   //gameSettings
-  // late AudioPool pool;
-  // late AudioPool dest;
+  late AudioPool pool;
+  late AudioPool dest;
   late Vector2 centerPosition;
   late double mainDistanse;
+  late double buttonrad;
 
   late TextComponent scoreText;
   late TextComponent levelText;
@@ -44,22 +45,24 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   void onGameResize(Vector2 canvasSize) {
     super.onGameResize(canvasSize);
     centerPosition = Vector2(size.x / 2, size.y * .4);
-    mainDistanse = (size.x < size.y * .7) ? size.x * .38 : size.y * .7 * .36;
+    mainDistanse = (size.x < size.y * .7) ? size.x * .41 : size.y * .7 * .36;
+    buttonrad = (size.x < size.y * .7) ? size.x * .28 : size.y * .7 * .24;
   }
 
   @override
   Future onLoad() async {
     await images.loadAll(['background.jpg', 'destroy8.png', 'star.png', 'bullet.png']);
-    // pool = await FlameAudio.createPool(
-    //   'coin2.mp3',
-    //   minPlayers: 1,
-    //   maxPlayers: 100,
-    // );
-    // dest = await FlameAudio.createPool(
-    //   'explosion.mp3',
-    //   minPlayers: 1,
-    //   maxPlayers: 100,
-    // );
+
+    pool = await FlameAudio.createPool(
+      'sfx/coin2.mp3',
+      minPlayers: 0,
+      maxPlayers: 0,
+    );
+    dest = await FlameAudio.createPool(
+      'sfx/explosion.mp3',
+      minPlayers: 0,
+      maxPlayers: 0,
+    );
     await initData();
   }
 
@@ -126,7 +129,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     //enemy
     enemy = Enemy(
       svg1: await loadSvg('images/enemy.svg'),
-      size: Vector2(105, 105),
+      size: Vector2(75, 75),
       position: centerPosition,
     );
 
@@ -140,7 +143,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
 
     //button
     button = ButtonComponent(
-      button: SvgComponent(svg: await loadSvg('images/reverse.svg'), size: Vector2(90, 90)),
+      button: SvgComponent(svg: await loadSvg('images/reverse.svg'), size: Vector2(buttonrad, buttonrad)),
       anchor: Anchor.center,
       position: Vector2(size.x / 2, size.y * .85),
       onPressed: (() {

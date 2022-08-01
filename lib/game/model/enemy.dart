@@ -36,7 +36,7 @@ class Enemy extends Component with HasGameRef<CorsairGame> {
 
     CircleComponent blur;
     blur = CircleComponent(
-        radius: 45,
+        radius: 40,
         anchor: Anchor.center,
         position: position,
         paint: Paint()
@@ -48,7 +48,7 @@ class Enemy extends Component with HasGameRef<CorsairGame> {
               Colors.transparent,
               Colors.transparent,
             ],
-          ).createShader(Rect.fromCircle(center: const Offset(45, 45), radius: 65)));
+          ).createShader(Rect.fromCircle(center: const Offset(40, 40), radius: 50)));
     add(blur);
     add(component1);
     add(component2);

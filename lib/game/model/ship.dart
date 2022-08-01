@@ -73,10 +73,8 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     super.onCollision(intersectionPoints, other);
     if (other is Bullet) {
       // pool.start();
+      gameRef.dest.start();
       gameRef.camera.shake(intensity: 5);
-      // gameRef.dest.start();
-
-      // FlameAudio.audioCache.play('sfx/coin2.mp3');
 
       destroy();
 
