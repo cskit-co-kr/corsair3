@@ -10,7 +10,7 @@ class GameState {
   static int level = 1;
   static int score = 0;
   static double shipSpeed = 100;
-  static double bulletSpeed = 200;
+  static double bulletSpeed = 130;
   static int coinCount = 26;
 
   static clickMoment() {}

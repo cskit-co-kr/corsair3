@@ -1,100 +1,39 @@
-import 'package:flame/collisions.dart';
-import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
-import 'package:flame_audio/flame_audio.dart';
-import 'package:flame_game/game/corsair_game.dart';
-import 'package:flame_game/game/model/ship.dart';
-import 'package:flame_game/settings/game_state.dart';
 import 'package:flutter/material.dart';
 
-// class Star extends SpriteComponent with HasGameRef<CorsairGame>, CollisionCallbacks {
-//   Star({
-//     Sprite? starSprite,
-//     Vector2? position,
-//   }) : super(
-//           sprite: starSprite,
-//           size: Vector2(22, 22),
-//           position: position,
-//           anchor: Anchor.center,
-//         );
-//   @override
-//   void onMount() async {
-//     super.onMount();
-//     final shape = CircleHitbox.relative(
-//       0.8,
-//       parentSize: size,
-//       position: size / 2,
-//       anchor: Anchor.center,
-//     );
+class TestScreen extends StatelessWidget {
+  const TestScreen({Key? key}) : super(key: key);
 
-//     add(shape);
-//   }
-
-//   @override
-//   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-//     super.onCollision(intersectionPoints, other);
-//     if (other is Ship) {
-//       FlameAudio.play('explosion.mp3');
-//       removeFromParent();
-//       print('dhfjashf lasd asd  ${parent}');
-//       GameState.score++;
-//     }
-//   }
-// }
-
-class Star extends PositionComponent with HasGameRef<CorsairGame>, CollisionCallbacks {
-  double starSize;
-  double opacity = 1.0;
-  bool isAlive = true;
-  Star({
-    Vector2? position,
-    required this.starSize,
-  }) : super(position: position, anchor: Anchor.center, size: Vector2(starSize, starSize));
   @override
-  void onMount() async {
-    super.onMount();
-    final shape = CircleHitbox.relative(
-      0.8,
-      parentSize: size,
-      position: Vector2(starSize, starSize) / 2,
-      anchor: Anchor.center,
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: CustomPaint(
+          painter: ButtonPainter(),
+        ),
+      ),
     );
-    add(shape);
   }
+}
 
+class ButtonPainter extends CustomPainter {
+  Offset centerPosition = const Offset(100, 150);
+  double starSize = 50;
   @override
-  void update(double dt) {
-    super.update(dt);
-    if (!isAlive) {
-      opacity -= dt * 2;
-      opacity = opacity.clamp(0, 1.0);
-      // print(opacity);
-    }
-  }
-
-  @override
-  void render(Canvas canvas) {
+  void paint(Canvas canvas, Size size) {
     Paint paint0 = Paint()..style = PaintingStyle.fill;
-    canvas.drawPath(
-        starPath(Offset(0, starSize * .1) - Offset((starSize * (1.0 - opacity)) / 2, (starSize * (1.0 - opacity)) / 2), starSize * (2.0 - opacity)), paint0..color = const Color(0xFF722F2F).withOpacity(opacity));
-    canvas.drawPath(starPath(const Offset(0, 0) - Offset((starSize * (1.0 - opacity)) / 2, (starSize * (1.0 - opacity)) / 2), starSize * (2.0 - opacity)), paint0..color = const Color(0xFFF7B24A).withOpacity(opacity));
+    canvas.drawPath(starPath(Offset(centerPosition.dx, centerPosition.dy + 5), starSize), paint0..color = const Color(0xFF722F2F));
+    canvas.drawPath(starPath(centerPosition, starSize), paint0..color = const Color(0xFFF7B24A));
 
     Paint paint1 = Paint()..style = PaintingStyle.fill;
-    paint1.color = Colors.white.withOpacity(opacity * 0.54);
-    canvas.drawPath(ligthPath(const Offset(0, 0) - Offset((starSize * (1.0 - opacity)) / 2, (starSize * (1.0 - opacity)) / 2), starSize * (2.0 - opacity)), paint1);
+    paint1.color = Colors.white.withOpacity(0.54);
+    canvas.drawPath(ligthPath(centerPosition, starSize), paint1);
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-    if (other is Ship) {
-      if (isAlive) {
-        FlameAudio.play('coin2.mp3');
-        GameState.score++;
-        other.coinCount--;
-        isAlive = false;
-      }
-    }
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
   }
 
   Path starPath(Offset position, double size) {
