@@ -90,7 +90,7 @@ class Star extends PositionComponent with HasGameRef<CorsairGame>, CollisionCall
 
     Paint paint1 = Paint()..style = PaintingStyle.fill;
     paint1.color = Colors.white.withOpacity(opacity * 0.54);
-    canvas.drawPath(ligthPath(const Offset(0, 0) - Offset((starSize * (1.0 - opacity)) / 2, (starSize * (1.0 - opacity)) / 2), starSize * (3.0 - opacity) / 2), paint1);
+    canvas.drawPath(ligthPath(const Offset(0, 0) - Offset((starSize * (1.0 - opacity)) / 3, (starSize * (1.0 - opacity)) / 3), starSize * (3.0 - opacity) / 2), paint1);
   }
 
   @override
