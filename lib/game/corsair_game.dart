@@ -20,8 +20,8 @@ import '../settings/game_state.dart';
 
 class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   //gameSettings
-  // late AudioPool pool;
-  // late AudioPool dest;
+  late AudioPool pool;
+  late AudioPool dest;
   late Vector2 centerPosition;
   late double mainDistanse;
 
@@ -50,16 +50,16 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   @override
   Future onLoad() async {
     await images.loadAll(['background.jpg', 'destroy8.png', 'star.png', 'bullet.png']);
-    // pool = await FlameAudio.createPool(
-    //   'coin2.mp3',
-    //   minPlayers: 1,
-    //   maxPlayers: 100,
-    // );
-    // dest = await FlameAudio.createPool(
-    //   'explosion.mp3',
-    //   minPlayers: 1,
-    //   maxPlayers: 100,
-    // );
+    pool = await FlameAudio.createPool(
+      'sfx/coin2.mp3',
+      minPlayers: 0,
+      maxPlayers: 0,
+    );
+    dest = await FlameAudio.createPool(
+      'sfx/explosion.mp3',
+      minPlayers: 0,
+      maxPlayers: 0,
+    );
     await initData();
   }
 
