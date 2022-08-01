@@ -74,12 +74,23 @@ class Star extends PositionComponent with HasGameRef<CorsairGame>, CollisionCall
   void render(Canvas canvas) {
     Paint paint0 = Paint()..style = PaintingStyle.fill;
     canvas.drawPath(
-        starPath(Offset(0, starSize * .1) - Offset((starSize * (1.0 - opacity)) / 2, (starSize * (1.0 - opacity)) / 2), starSize * (2.0 - opacity)), paint0..color = const Color(0xFF722F2F).withOpacity(opacity));
-    canvas.drawPath(starPath(const Offset(0, 0) - Offset((starSize * (1.0 - opacity)) / 2, (starSize * (1.0 - opacity)) / 2), starSize * (2.0 - opacity)), paint0..color = const Color(0xFFF7B24A).withOpacity(opacity));
+      starPath(
+        Offset(0, starSize * .1) - Offset((starSize * (1.0 - opacity)) / 3, (starSize * (1.0 - opacity)) / 3),
+        starSize * (3.0 - opacity) / 2,
+      ),
+      paint0..color = const Color(0xFF722F2F).withOpacity(opacity),
+    );
+    canvas.drawPath(
+      starPath(
+        const Offset(0, 0) - Offset((starSize * (1.0 - opacity)) / 3, (starSize * (1.0 - opacity)) / 3),
+        starSize * (3.0 - opacity) / 2,
+      ),
+      paint0..color = const Color(0xFFF7B24A).withOpacity(opacity),
+    );
 
     Paint paint1 = Paint()..style = PaintingStyle.fill;
     paint1.color = Colors.white.withOpacity(opacity * 0.54);
-    canvas.drawPath(ligthPath(const Offset(0, 0) - Offset((starSize * (1.0 - opacity)) / 2, (starSize * (1.0 - opacity)) / 2), starSize * (2.0 - opacity)), paint1);
+    canvas.drawPath(ligthPath(const Offset(0, 0) - Offset((starSize * (1.0 - opacity)) / 2, (starSize * (1.0 - opacity)) / 2), starSize * (3.0 - opacity) / 2), paint1);
   }
 
   @override
