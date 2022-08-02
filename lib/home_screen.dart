@@ -65,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) => AlertDialog(
               title: const Text("User"),
               content: Stack(
