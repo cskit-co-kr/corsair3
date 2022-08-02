@@ -6,20 +6,13 @@ import '../settings/game_state.dart';
 class ScoreWidget extends StatelessWidget {
   String name;
   bool isResult;
-  ScoreWidget({Key? key,this.name = '', this.isResult = false})
-      : super(key: key);
+  ScoreWidget({Key? key, this.name = '', this.isResult = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> snapshot = FirebaseFirestore.instance
-        .collection('users')
-        .orderBy('score', descending: true)
-        .limit(5)
-        .snapshots();
+    final Stream<QuerySnapshot> snapshot = FirebaseFirestore.instance.collection('users').orderBy('score', descending: true).limit(5).snapshots();
     return Container(
-      height: isResult
-          ? MediaQuery.of(context).size.height * 0.62
-          : MediaQuery.of(context).size.height * 0.52,
+      height: isResult ? MediaQuery.of(context).size.height * 0.62 : MediaQuery.of(context).size.height * 0.52,
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
@@ -40,6 +33,7 @@ class ScoreWidget extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 20),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
@@ -47,12 +41,13 @@ class ScoreWidget extends StatelessWidget {
                     width: 25,
                     height: 25,
                   ),
-                  Text(
-                    '${GameState.score}',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        color: Color(0xFF722F2F)),
+                  const SizedBox(width: 3),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1),
+                    child: Text(
+                      '${GameState.score}',
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
+                    ),
                   ),
                 ],
               ),
@@ -62,8 +57,7 @@ class ScoreWidget extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.37,
             child: StreamBuilder(
               stream: snapshot,
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
                     child: Text("Empty"),
@@ -72,8 +66,7 @@ class ScoreWidget extends StatelessWidget {
                 return ListView(
                   scrollDirection: Axis.vertical,
                   children: snapshot.data!.docs.map((DocumentSnapshot doc) {
-                    return scoreItem(
-                        Score(name: doc['name'], point: doc['score']));
+                    return scoreItem(Score(name: doc['name'], point: doc['score']));
                   }).toList(),
                 );
               },

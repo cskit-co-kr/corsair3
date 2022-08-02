@@ -17,6 +17,7 @@ import 'package:flame_svg/flame_svg.dart';
 import 'package:flutter/material.dart';
 
 import '../settings/game_state.dart';
+import 'model/click_btn.dart';
 import 'model/star.dart';
 
 class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
@@ -33,9 +34,9 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   Function setStates;
 
   late StarController star;
-  late Enemy enemy;
+  late EnemyShape enemy;
   late Ship ship;
-  late ButtonComponent button;
+  late ClickeButton button;
   late MyButtonComponent playButton;
   late BulletController bullet;
 
@@ -133,11 +134,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     );
 
     //enemy
-    enemy = Enemy(
-      svg1: await loadSvg('images/enemy.svg'),
-      size: Vector2(75, 75),
-      position: centerPosition,
-    );
+    enemy = EnemyShape(enemySize: 55, position: centerPosition);
 
     //star
 
@@ -148,10 +145,9 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     bullet = BulletController();
 
     //button
-    button = ButtonComponent(
-      button: SvgComponent(svg: await loadSvg('images/reverse.svg'), size: Vector2(buttonrad, buttonrad)),
-      anchor: Anchor.center,
+    button = ClickeButton(
       position: Vector2(size.x / 2, size.y * .85),
+      btnSize: buttonrad,
       onPressed: (() {
         clickAction();
       }),

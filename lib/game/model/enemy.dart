@@ -63,53 +63,51 @@ class Enemy extends Component with HasGameRef<CorsairGame> {
   }
 }
 
-class EnemyShape extends Component with HasGameRef<CorsairGame> {
+class EnemyShape extends PositionComponent with HasGameRef<CorsairGame> {
   double enemySize;
-  Vector2 enemyPosition;
-  double enemyRadian = 0;
+  double enemyRadian = 90;
   EnemyShape({
     this.enemySize = 100,
-    required this.enemyPosition,
-  });
+    Vector2? position,
+  }) : super(position: position, anchor: Anchor.center);
 
   @override
   void update(double dt) {
     super.update(dt);
-    enemyRadian += .01;
+    if (GameState.type == GameType.playingGame) {
+      enemyRadian += .5;
+    }
   }
 
   @override
   void render(Canvas canvas) {
-    double shipSize = enemySize;
-    Offset center = Offset(enemyPosition.x, enemyPosition.y);
+    Offset center = const Offset(0.0, 0.0);
+
+    Paint paintShader = Paint()
+      ..shader = RadialGradient(
+        colors: [
+          Colors.white.withOpacity(0.5),
+          Colors.white.withOpacity(0.5),
+          Colors.white.withOpacity(0.5),
+          Colors.transparent,
+        ],
+      ).createShader(Rect.fromCircle(center: const Offset(0, 0), radius: enemySize * .65));
+    canvas.drawCircle(center, enemySize * .65, paintShader);
     Paint paint = Paint()..color = const Color(0xFF2D68C1);
-    canvas.drawCircle(center, shipSize * .5, paint);
+    canvas.drawCircle(center, enemySize * .5, paint);
     paint = Paint()..color = Colors.red; //const Color(0xFF36FF6E);
-    canvas.drawCircle(center, shipSize * .28, paint..color = const Color(0xFF08080A));
-    double x = center.dx;
-    double y = center.dy - shipSize * .15;
-    double a = 1;
-    Path path0 = Path();
-    path0.moveTo(x - 25, y);
-    path0.quadraticBezierTo(x - 40 * a, y + 10 * a, x - 25 * a, y - 10 * a);
-    path0.quadraticBezierTo(x, y - 35 * a, x + 25 * a, y - 10 * a);
-    path0.quadraticBezierTo(x + 40 * a, y + 10 * a, x + 25 * a, y);
-    path0.quadraticBezierTo(x, y - 10 * a, x - 25 * a, y);
-    path0.close();
-    drawRotated(
-      canvas,
-      center,
-      -45,
-      () => canvas.drawPath(path0, paint..color = const Color(0xFF43403A)),
-    );
+    canvas.drawCircle(center, enemySize * .28, paint..color = const Color(0xFF08080A));
+
+    // canvas.drawPath(pathLight(center, enemySize), paint..color = Colors.red);
+    canvas.drawPath(pathLight(center, enemySize), paint..color = const Color(0xFF43403A));
     for (int i = 0; i < 8; i++) {
       drawRotated(
         canvas,
         center,
         enemyRadian + (i * 45) + 22.5,
         () => canvas.drawCircle(
-          Offset(center.dx, center.dy - shipSize * .425),
-          shipSize * .035,
+          Offset(center.dx, center.dy - enemySize * .425),
+          enemySize * .035,
           paint..color = const Color(0xFF36FF6E),
         ),
       );
@@ -120,16 +118,29 @@ class EnemyShape extends Component with HasGameRef<CorsairGame> {
         () => canvas.drawRRect(
           RRect.fromRectAndRadius(
             Rect.fromCenter(
-              center: Offset(center.dx, center.dy - shipSize * .395),
-              width: shipSize * .028,
-              height: shipSize * .165,
+              center: Offset(center.dx, center.dy - enemySize * .395),
+              width: enemySize * .028,
+              height: enemySize * .165,
             ),
-            Radius.circular(shipSize * .014),
+            Radius.circular(enemySize * .014),
           ),
           paint..color = const Color(0xFF3D7BD8),
         ),
       );
     }
+  }
+
+  Path pathLight(Offset offset, double size) {
+    Path path_5 = Path();
+    double x = -size * .525;
+    double y = x;
+    path_5.moveTo(x + size * 0.4126469, y + size * 0.3996662);
+    path_5.cubicTo(x + size * 0.3799131, y + size * 0.4242162, x + size * 0.3717300, y + size * 0.4733162, x + size * 0.3553631, y + size * 0.4651323);
+    path_5.cubicTo(x + size * 0.3389962, y + size * 0.4569485, x + size * 0.3512715, y + size * 0.4037577, x + size * 0.3889469, y + size * 0.3719354);
+    path_5.cubicTo(x + size * 0.4266223, y + size * 0.3401123, x + size * 0.4921854, y + size * 0.3373808, x + size * 0.4944800, y + size * 0.3546585);
+    path_5.cubicTo(x + size * 0.4967746, y + size * 0.3719354, x + size * 0.4453800, y + size * 0.3751169, x + size * 0.4126469, y + size * 0.3996662);
+    path_5.close();
+    return path_5;
   }
 }
 
