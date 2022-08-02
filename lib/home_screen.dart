@@ -18,8 +18,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController(text: '@.mn');
-  TextEditingController nameController = TextEditingController(text: 'byambaa');
+  TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   @override
   void initState() {
     super.initState();
