@@ -98,7 +98,7 @@ class Star extends PositionComponent with HasGameRef<CorsairGame>, CollisionCall
     super.onCollision(intersectionPoints, other);
     if (other is Ship) {
       if (isAlive) {
-        FlameAudio.play('coin2.mp3');
+        gameRef.pool.start();
         GameState.score++;
         other.coinCount--;
         isAlive = false;
