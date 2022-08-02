@@ -83,7 +83,7 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
         GameState.userMaxScore = GameState.score;
       }
 
-      // users.doc(GameState.userId).update({'score': GameState.userMaxScore});
+      users.doc(GameState.userId).update({'score': GameState.userMaxScore});
 
       // removeFromParent();
     }
