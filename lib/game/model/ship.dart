@@ -1,13 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
+import 'package:flame_game/api/webapi.dart';
 import 'package:flame_game/game/model/bullet.dart';
-import 'package:flame_game/game/model/star.dart';
 import 'package:flame_game/game/util/utils.dart';
 import 'package:flame_svg/flame_svg.dart';
 import 'dart:math' as math;
-import 'package:flame_audio/flame_audio.dart';
 import '../../settings/game_state.dart';
 import '../corsair_game.dart';
 
@@ -77,21 +75,10 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
 
       destroy();
 
-      CollectionReference users = FirebaseFirestore.instance.collection('users');
-
       if (GameState.userMaxScore < GameState.score) {
         GameState.userMaxScore = GameState.score;
       }
-
-      users.doc(GameState.userId).update({'score': GameState.userMaxScore});
-
-      // removeFromParent();
     }
-    // else
-    // if (other is Star) {
-    //   // coinCount--;
-
-    // }
   }
 
   void destroy() async {
@@ -112,10 +99,11 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
     GameState.type = GameType.overGame;
     GameState.bulletSpeed = 200;
     GameState.bulletFrac = .4;
-    await Future.delayed(const Duration(seconds: 3), () {
+    try {
+      await setScoreData(GameState.name, GameState.score);
+    } catch (e) {}
+    await Future.delayed(const Duration(seconds: 2), () {
       setStates();
-      // gameRef.endGame();
-      // print('endshipaa');
     });
   }
 }

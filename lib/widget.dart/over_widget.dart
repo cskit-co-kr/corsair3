@@ -19,7 +19,7 @@ class _OverWidgetState extends State<OverWidget> {
         Column(
           children: [
             SizedBox(height: MediaQuery.of(context).size.height / 9),
-            ScoreWidget(isResult: true, name: 'byambaa'),
+            ScoreWidget(isResult: true),
             SizedBox(height: MediaQuery.of(context).size.height / 12),
           ],
         ),
@@ -40,10 +40,7 @@ class _OverWidgetState extends State<OverWidget> {
               child: const Center(
                 child: Text(
                   'Restart',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Color(0xFF722F2F)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
                 ),
               )),
         ),

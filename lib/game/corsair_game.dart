@@ -1,10 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:math';
-
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_game/game/controller/bullet_controller.dart';
@@ -34,7 +29,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
   Function setStates;
 
   late StarController star;
-  late EnemyShape enemy;
+  late Enemy enemy;
   late Ship ship;
   late ClickeButton button;
   late MyButtonComponent playButton;
@@ -97,8 +92,6 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     }
     GameState.bulletSpeed = GameState.bulletSpeed * 1.1;
     GameState.bulletFrac = GameState.bulletFrac * .9;
-
-    print('bulletPseed :: ${GameState.bulletSpeed} :::: ${GameState.bulletFrac}:::: ${GameState.shipSpeed}');
     GameState.score += 10;
     GameState.level++;
     refreshData();
@@ -134,7 +127,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
     );
 
     //enemy
-    enemy = EnemyShape(enemySize: 55, position: centerPosition);
+    enemy = Enemy(enemySize: 55, position: centerPosition);
 
     //star
 
