@@ -50,40 +50,42 @@ class _ScoreWidgetState extends State<ScoreWidget> {
         borderRadius: BorderRadius.circular(16),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-      child: Column(
-        children: [
-          Text(
-            widget.isResult ? 'You scored' : 'Welcome',
-            style: const TextStyle(fontSize: 20, color: Color(0xFF722F2F)),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.01,
-          ),
-          if (widget.isResult)
-            Container(
-              margin: const EdgeInsets.only(bottom: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/star.png',
-                    width: 25,
-                    height: 25,
-                  ),
-                  const SizedBox(width: 3),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 1),
-                    child: Text(
-                      '${GameState.score}',
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
-                    ),
-                  ),
-                ],
-              ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(
+              widget.isResult ? 'You scored' : 'Welcome',
+              style: const TextStyle(fontSize: 20, color: Color(0xFF722F2F)),
             ),
-          ...List.generate(scoreList.length, (index) => scoreItem(scoreList[index])),
-        ],
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+            ),
+            if (widget.isResult)
+              Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/star.png',
+                      width: 25,
+                      height: 25,
+                    ),
+                    const SizedBox(width: 3),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 1),
+                      child: Text(
+                        '${GameState.score}',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xFF722F2F)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ...List.generate(scoreList.length, (index) => scoreItem(scoreList[index])),
+          ],
+        ),
       ),
     );
   }

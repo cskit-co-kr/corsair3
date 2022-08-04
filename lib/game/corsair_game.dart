@@ -48,7 +48,7 @@ class CorsairGame extends FlameGame with HasCollisionDetection, HasTappables {
 
   @override
   Future onLoad() async {
-    await images.loadAll(['background.jpg', 'destroy8.png']);
+    await images.loadAll(['destroy8.png']);
 
     pool = await FlameAudio.createPool(
       'sfx/coin2.mp3',

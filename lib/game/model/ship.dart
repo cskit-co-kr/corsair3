@@ -19,8 +19,8 @@ class Ship extends SvgComponent with CollisionCallbacks, HasGameRef<CorsairGame>
   Ship({
     required this.setStates,
     required this.nextlevel,
-    Svg? shipSvg,
     double? gradusa,
+    Svg? shipSvg,
   }) : super(
           svg: shipSvg,
           size: Vector2(36, 36),
