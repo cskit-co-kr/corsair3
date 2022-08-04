@@ -42,8 +42,8 @@ class _ScoreWidgetState extends State<ScoreWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.isResult ? MediaQuery.of(context).size.height * 0.62 : MediaQuery.of(context).size.height * 0.52,
-      width: double.infinity,
+      // height: widget.isResult ? MediaQuery.of(context).size.height * 0.62 : MediaQuery.of(context).size.height * 0.52,
+      // width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
         color: const Color(0xFFFFF5F5),

@@ -19,34 +19,35 @@ class _MenuWidgetState extends State<MenuWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Expanded(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Column(
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height / 12),
-              ScoreWidget(isResult: false),
-              SizedBox(height: MediaQuery.of(context).size.height / 24),
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.symmetric(horizontal: 24),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFF5F5),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter name',
+          Expanded(
+            child: Column(
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+                Expanded(child: ScoreWidget(isResult: false)),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 24),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFF5F5),
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  maxLines: 1,
+                  child: TextField(
+                    controller: nameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Enter name',
+                    ),
+                    maxLines: 1,
+                  ),
                 ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height / 24),
-            ],
+              ],
+            ),
           ),
+          const SizedBox(height: 25),
           InkWell(
             onTap: () async {
               if (nameController.text.isNotEmpty) {
@@ -107,6 +108,7 @@ class _MenuWidgetState extends State<MenuWidget> {
               ),
             ),
           ),
+          const SizedBox(height: 50),
         ],
       ),
     );
